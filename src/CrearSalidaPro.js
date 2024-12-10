@@ -52,7 +52,7 @@ const CrearSalidaPro = () => {
             <div className="card-header">
               <h4>Lotes</h4>
             </div>
-            <div className="card-body">
+            <div className="card-body" style={{ overflowX: "auto", overflowY: "auto", maxHeight: "800px" }}>
               {lotes && lotes.length > 0 ? (
                 <table className="table">
                   <thead className="table-light">

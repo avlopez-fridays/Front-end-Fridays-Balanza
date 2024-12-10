@@ -78,5 +78,42 @@
     font-size: 14px; 
     display: block; 
   }
+
+
+  /* Estilo para hacer la tabla responsiva */
+.table {
+  width: 100%;
+  overflow-x: auto; /* Permite el scroll horizontal */
+  display: block; /* Hace que el contenedor sea un bloque desplazable */
+  white-space: nowrap; /* Evita que las filas se rompan */
+}
+
+.table thead {
+  position: sticky;
+  top: 0; /* Fija la cabecera en la parte superior al hacer scroll vertical */
+  background-color: #f9f9f9; /* Fondo para cabecera */
+  z-index: 1;
+}
+
+.table tbody tr td {
+  word-wrap: break-word; /* Ajusta el texto automáticamente en celdas pequeñas */
+  vertical-align: middle; /* Centra el contenido verticalmente */
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+  .table {
+      font-size: 12px; /* Reduce el tamaño del texto para pantallas pequeñas */
+  }
+
+  .card-body {
+      padding: 0; /* Ajusta el espacio en pantallas pequeñas */
+  }
+
+  .table thead th {
+      text-align: left;
+  }
+}
+
   
   
