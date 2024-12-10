@@ -1,0 +1,67 @@
+.crear-pantalla-tvfd {
+    background-color: #000000; /* Fondo claro para el formulario */
+    border-radius: 8px; /* Esquinas redondeadas */
+    padding: 20px; /* Espaciado interno */
+    max-width: 400px; /* Ancho máximo del formulario */
+    margin: 20px auto; /* Centrar en la página */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  .crear-pantalla-tvfd h2 {
+    text-align: center;
+    color: #343a40; /* Color de texto oscuro */
+    margin-bottom: 20px;
+  }
+  
+  .crear-pantalla-tvfd form div {
+    margin-bottom: 15px;
+  }
+  
+  .crear-pantalla-tvfd label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #495057; /* Texto gris oscuro */
+  }
+  
+  .crear-pantalla-tvfd input,
+  .crear-pantalla-tvfd select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da; /* Borde gris claro */
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .crear-pantalla-tvfd input:focus,
+  .crear-pantalla-tvfd select:focus {
+    outline: none;
+    border-color: #495057; /* Azul claro al enfocar */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+  }
+  
+  .crear-pantalla-tvfd button {
+    background-color:#495057; /* Azul */
+    color: #fff; /* Texto blanco */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+  }
+  
+  .crear-pantalla-tvfd button:hover {
+    background-color: #495057; /* Azul más oscuro al pasar el cursor */
+  }
+  
+  .crear-pantalla-tvfd button:active {
+    background-color: #495057; /* Azul aún más oscuro al hacer clic */
+  }
+  
+  .crear-pantalla-tvfd button:disabled {
+    background-color: #6c757d; /* Gris para botón deshabilitado */
+    cursor: not-allowed;
+  }
+  
+  
