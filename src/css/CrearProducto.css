@@ -117,4 +117,6 @@ body {
 .table-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch; /* Mejora el desplazamiento en dispositivos táctiles */
+  max-height: 400px; /* Establece la altura máxima del contenedor */
+  overflow-y: scroll; 
 }

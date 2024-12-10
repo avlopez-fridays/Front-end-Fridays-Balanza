@@ -156,7 +156,7 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
         nombre: "",
         correlativo: "",
         usuario: "",
-        creosalida: "",
+        creosalida: usuarioLogueado || "",
         Estado: "",
         Lote: "",
       });

@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 import "./css/CrearProducto.css";
 
-  // Obtener el usuario logueado
-  const usuarioLogueado = localStorage.getItem("usuario");
+// Obtener el usuario logueado
+const usuarioLogueado = localStorage.getItem("usuario");
 const CrearProducto = () => {
   const [producto, setProducto] = useState({
     CodigoProducto: "",
@@ -17,9 +16,9 @@ const CrearProducto = () => {
     Dias: "",
     QR: "",
     correlativo: "",
-    Lote: "",  // Campo Lote vacío por defecto
+    Lote: "", // Campo Lote vacío por defecto
     usuario: usuarioLogueado || "",
-    FechaCreacion: new Date().toISOString().split("T")[0], 
+    FechaCreacion: new Date().toISOString().split("T")[0],
   });
 
   const [registros, setRegistros] = useState([]); // Estado para almacenar registros del día
@@ -64,8 +63,8 @@ const CrearProducto = () => {
   // Manejar entrada del código QR
   const handleQRInput = (e) => {
     let qrData = e.target.value;
-  // Reemplazar todas las barras '/' por guiones '-'
-     qrData = qrData.replace(/\//g, "-");
+    // Reemplazar todas las barras '/' por guiones '-'
+    qrData = qrData.replace(/\//g, "-");
 
     setProducto((prevState) => ({
       ...prevState,
@@ -147,11 +146,11 @@ const CrearProducto = () => {
         Dias: "",
         QR: "",
         correlativo: "",
-        Lote: "",  // Reset del campo Lote
-        usuario: "",
+        Lote: "", // Reset del campo Lote
+        usuario: usuarioLogueado || "",
         FechaCreacion: new Date().toISOString().split("T")[0], // Fecha actual
       });
-     
+
       // Limpiar mensaje de error
       setError("");
     } catch (error) {
@@ -161,9 +160,8 @@ const CrearProducto = () => {
 
       // Verificar si el error es un 404 (producto ya ingresado)
       if (error.response && error.response.status === 404) {
-
         setError("Este producto ya ha sido ingresado a la bodega.");
-       
+
         // Limpiar los campos después de mostrar el mensaje de error
         setProducto({
           CodigoProducto: "",
@@ -175,8 +173,8 @@ const CrearProducto = () => {
           Dias: "",
           QR: "",
           correlativo: "",
-          Lote: "",  // Reset del campo Lote
-          usuario: "",
+          Lote: "", // Reset del campo Lote
+          usuario: usuarioLogueado || "",
           FechaCreacion: new Date().toISOString().split("T")[0], // Fecha actual
         });
       } else {
@@ -193,8 +191,8 @@ const CrearProducto = () => {
         Dias: "",
         QR: "",
         correlativo: "",
-        Lote: "",  // Reset del campo Lote
-        usuario: "",
+        Lote: "", // Reset del campo Lote
+        usuario: usuarioLogueado || "",
         FechaCreacion: new Date().toISOString().split("T")[0], // Fecha actual
       });
     }
@@ -270,9 +268,8 @@ const CrearProducto = () => {
                       disabled
                     />
                   </div>
-         
                 </div>
-               
+
                 <div className="text">
                   <button type="submit" className="btn btn-primary">
                     Crear Producto
@@ -280,80 +277,77 @@ const CrearProducto = () => {
                 </div>
               </form>
 
-            
               {error && <div className="alert alert-danger mt-3">{error}</div>}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="row mt-4">
-  <div className="col-lg-12">
-
-    {registros && registros.length > 0 ? (
-      <div className="table-responsive">
-      <table className="table">
-        <thead className="table-light">
-          <tr>
-          <th>Correlativo</th>
-            <th>Código Producto</th>
-            <th>Nombre</th>
-            <th>Peso</th>
-            <th>Vendor</th>
-            <th>Fecha</th>
-            <th>Vence</th>
-            <th>Días</th>
-          
-            <th>Fecha Creación</th> {/* Nueva columna para la fecha de creación */}
-          </tr>
-        </thead>
-        <tbody>
-          {registros.map((producto, index) => {
-            console.log(producto); // Verifica que las propiedades estén correctamente disponibles
-            return (
-              <>
-                {producto?.codigoProducto != null && (
-                  <tr key={index}>
-                       <td>{producto?.correlativo ?? "N/A"}</td>
-                    <td>{producto?.codigoProducto ?? "N/A"}</td>
-                    <td>{producto?.nombre ?? "N/A"}</td>
-                    <td>{producto?.peso ?? "N/A"}</td>
-                    <td>{producto?.vendor ?? "N/A"}</td>
-                    <td>
-                      {producto?.fecha
-                        ? new Date(producto?.fecha).toLocaleDateString("es-ES")
-                        : "N/A"}
-                    </td> 
-                    <td>
-                      {producto?.vence
-                        ? new Date(producto?.vence).toLocaleDateString("es-ES")
-                        : "N/A"}
-                    </td> 
-                    <td>{producto?.dias ?? "N/A"}</td>
-                 
-                    <td>
-                      {producto?.fechaCreacion
-                        ? new Date(producto?.fechaCreacion).toLocaleDateString()
-                        : "N/A"}
-                    </td> 
+     
+          {registros && registros.length > 0 ? (
+            <div className="table-responsive" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+              <table className="table">
+                <thead className="table-light">
+                  <tr>
+                    <th>Correlativo</th>
+                    <th>Código Producto</th>
+                    <th>Nombre</th>
+                    <th>Peso</th>
+                    <th>Vendor</th>
+                    <th>Fecha</th>
+                    <th>Vence</th>
+                    <th>Días</th>
+                    <th>Fecha Creación</th>{" "}
+                    {/* Nueva columna para la fecha de creación */}
                   </tr>
-                )}
-              </>
-            );
-          })}
-        </tbody>
-      </table>
-      </div>
-    ) : (
-      <p>Cargando...</p> // Muestra un mensaje mientras los datos están cargando
-    )}
-  </div>
-</div>
+                </thead>
+                <tbody>
+                  {registros.map((producto, index) => {
+                    console.log(producto); // Verifica que las propiedades estén correctamente disponibles
+                    return (
+                      <>
+                        {producto?.codigoProducto != null && (
+                          <tr key={index}>
+                            <td>{producto?.correlativo ?? "N/A"}</td>
+                            <td>{producto?.codigoProducto ?? "N/A"}</td>
+                            <td>{producto?.nombre ?? "N/A"}</td>
+                            <td>{producto?.peso ?? "N/A"}</td>
+                            <td>{producto?.vendor ?? "N/A"}</td>
+                            <td>
+                              {producto?.fecha
+                                ? new Date(producto?.fecha).toLocaleDateString(
+                                    "es-ES"
+                                  )
+                                : "N/A"}
+                            </td>
+                            <td>
+                              {producto?.vence
+                                ? new Date(producto?.vence).toLocaleDateString(
+                                    "es-ES"
+                                  )
+                                : "N/A"}
+                            </td>
+                            <td>{producto?.dias ?? "N/A"}</td>
 
-
-
-
-
+                            <td>
+                              {producto?.fechaCreacion
+                                ? new Date(
+                                    producto?.fechaCreacion
+                                  ).toLocaleDateString()
+                                : "N/A"}
+                            </td>
+                          </tr>
+                        )}
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>Cargando...</p> // Muestra un mensaje mientras los datos están cargando
+          )}
+    
     </div>
   );
 };
