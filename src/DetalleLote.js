@@ -283,6 +283,7 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
                             id="QRScan"
                             placeholder="Escanea o escribe el código QR"
                             onChange={handleQRInput}
+                            
                           />
                         </div>
 
@@ -302,6 +303,8 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
                             value={salida.codigoProducto}
                             onChange={handleChange}
                             required
+                            readOnly
+                            disabled
                           />
                         </div>
 
@@ -318,6 +321,8 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
                             value={salida.nombre}
                             onChange={handleChange}
                             required
+                            readOnly
+                            disabled
                           />
                         </div>
 
@@ -334,6 +339,8 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
                             value={salida.peso}
                             onChange={handleChange}
                             required
+                            readOnly
+                            disabled
                           />
                         </div>
                       </div>
