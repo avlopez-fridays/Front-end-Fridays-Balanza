@@ -10,7 +10,17 @@ const CrearUsuario = () => {
     Estado: "A",
     FechaCreacion: "",
     usuario: "", // Este es el nombre del usuario que se obtendrá del localStorage
+    IdRol: "", // Solo el id del rol, el objeto completo se generará al enviar
+    rolFD: { // Se inicializa con un objeto vacío para el rol
+      idRol: 0,
+      nombre: "",
+      estado: "A",
+    },
   });
+
+  const [roles, setRoles] = useState([]); // Estado para almacenar los roles
+  const [loading, setLoading] = useState(false); // Estado de carga
+  const [error, setError] = useState(null); // Estado de error
 
   // Obtener el nombre de usuario del localStorage y actualizar el estado
   useEffect(() => {
@@ -26,26 +36,94 @@ const CrearUsuario = () => {
       ...prevState,
       FechaCreacion: today,
     }));
-  }, []); // Esto se ejecuta solo una vez cuando el componente se monta
+
+    // Obtener los roles desde la API
+    const fetchRoles = async () => {
+      setLoading(true); // Iniciar carga
+      try {
+        const response = await axios.get("http://10.100.2.137:4001/api/RolesFD");
+        console.log("Roles obtenidos:", response.data); // Muestra los roles en consola
+        setRoles(response.data || []); // Guardar roles en el estado
+      } catch (error) {
+        console.error("Error al obtener los roles:", error.message);
+        setError("No se pudieron obtener los roles. Intenta más tarde."); // Setear el mensaje de error
+      } finally {
+        setLoading(false); // Finalizar carga
+      }
+    };
+
+    fetchRoles();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUsuario((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+
+    // Si el campo que se está cambiando es el IdRol, también actualizamos el rolFD
+    if (name === "IdRol") {
+      const selectedRole = roles.find((rol) => rol.idRol === parseInt(value));
+      setUsuario((prevState) => ({
+        ...prevState,
+        IdRol: value,
+        rolFD: {
+          idRol: selectedRole ? selectedRole.idRol : 0,
+          nombre: selectedRole ? selectedRole.nombre : "",
+          estado: selectedRole ? selectedRole.estado : "A",
+        },
+      }));
+    } else {
+      setUsuario((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!usuario.Idusuario || !usuario.Contrasena || !usuario.IdRol) {
+      alert("Por favor, complete todos los campos antes de enviar.");
+      return;
+    }
+
+    // Crear el objeto final que se enviará a la API
+    const usuarioData = {
+      idusuario: usuario.Idusuario,
+      contrasena: usuario.Contrasena,
+      huella: usuario.Huella,
+      estado: usuario.Estado,
+      usuario: usuario.usuario, // Nombre del usuario obtenido de localStorage
+      fechaCreacion: usuario.FechaCreacion,
+      idRol: usuario.IdRol,
+      rolFD: usuario.rolFD,
+    };
+
+    setLoading(true); // Iniciar carga
     try {
       const response = await axios.post(
         "http://10.100.2.137:4001/api/UsuariosBalnazaFD",
-        usuario
+        usuarioData
       );
       console.log("Usuario creado:", response.data);
+      alert("Usuario creado con éxito.");
+      setUsuario({ // Limpiar el formulario
+        Idusuario: "",
+        Contrasena: "",
+        Huella: "",
+        Estado: "A",
+        FechaCreacion: "",
+        usuario: "",
+        IdRol: "",
+        rolFD: { idRol: 0, nombre: "", estado: "A" }, // Reiniciar el rolFD
+      });
     } catch (error) {
       console.error("Error:", error.message);
+      if (error.response) {
+        setError(error.response.data.message || "Error al crear el usuario.");
+      } else {
+        setError("Error de conexión. Intenta más tarde.");
+      }
+    } finally {
+      setLoading(false); // Finalizar carga
     }
   };
 
@@ -149,6 +227,29 @@ const CrearUsuario = () => {
                   </div>
 
                   <div className="col-md-3 mb-3">
+                    <label htmlFor="IdRol" className="form-label">
+                      Rol
+                    </label>
+                    <select
+                      className="form-control"
+                      id="IdRol"
+                      name="IdRol"
+                      value={usuario.IdRol}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="" disabled>
+                        Seleccione un rol
+                      </option>
+                      {roles.map((rol, index) => (
+                        <option key={rol.idRol || index} value={rol.idRol}>
+                          {rol.nombre ?? "N/A"}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="col-md-3 mb-3">
                     <label htmlFor="FechaCreacion" className="form-label">
                       Fecha de Creación
                     </label>
@@ -163,10 +264,11 @@ const CrearUsuario = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <button type="submit" className="btn btn-secondary">
-                    Crear Usuario
+                  <button type="submit" className="btn btn-secondary" disabled={loading}>
+                    {loading ? "Cargando..." : "Crear Usuario"}
                   </button>
                 </div>
+                {error && <div className="alert alert-danger mt-3">{error}</div>}
               </form>
             </div>
           </div>
