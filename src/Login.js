@@ -9,6 +9,7 @@ const Login = () => {
     Contrasena: '',
   });
   const [error, setError] = useState('');
+  const [rol, setRol] = useState(''); // Estado para el rol del usuario
 
   const navigate = useNavigate();
 
@@ -44,15 +45,22 @@ const Login = () => {
       }
 
       const data = await response.json();
-
+      console.log("Respuesta de la API:", data);
       // Validación de la contraseña
       const contrasenaAPI = data.contrasena ? data.contrasena.trim() : '';
       const contrasenaInput = usuario.Contrasena.trim();
 
       if (contrasenaAPI === contrasenaInput) {
-        // Guardar el token en el localStorage
-        localStorage.setItem('token', data.token);  // Asumiendo que el backend devuelve el token
-        localStorage.setItem('usuario', usuario.Idusuario);  // Guardar el usuario logueado
+
+        console.log("Rol de la API:", data.rol);
+  
+        // Guardar el token, usuario y rol en el localStorage
+        localStorage.setItem('token', data.token); 
+        localStorage.setItem('usuario', usuario.Idusuario);
+        localStorage.setItem('idRol', data.idRol); 
+        console.log("Usuario almacenado:", usuario.Idusuario);
+        console.log("Rol almacenado:", data.rol);
+        setRol(data.rol); // Actualizar el estado local del rol
         navigate('/inicio');
       } else {
         setError('Contraseña incorrecta');
@@ -93,6 +101,12 @@ const Login = () => {
           {error && <p className="login-error-message">{error}</p>}
           <button type="submit" className="login-button">Iniciar sesión</button>
         </form>
+        {rol && (
+          <div className="login-role-info">
+            <p>Usuario: {usuario.Idusuario}</p>
+            <p>Rol: {rol}</p>
+          </div>
+        )}
       </div>
     </div>
   );
