@@ -31,6 +31,8 @@ const CrearSalidaPro = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+
+
   const handleModalClose = () => {
     setShowModal(false);
     setSelectedLote(null);

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 
 // Componentes para mostrar en el área de contenido
 import CrearProducto from "./CrearProducto";
@@ -16,6 +17,21 @@ function Inicio() {
   // Obtener el nombre del usuario y el rol desde localStorage
   const usuarioNombre = localStorage.getItem("usuario") || "Usuario";
   const usuarioRol = localStorage.getItem("idRol") || "Sin Rol";
+  const navigate = useNavigate();
+
+
+   // Redirigir al login si no hay token
+   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/"); // Redirigir a login si no está logueado
+    }
+
+    // Prevenir navegación hacia atrás después de cerrar sesión
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+  }, [navigate]);
 
   const handleLinkClick = (content) => {
     setActiveContent(content);
@@ -49,6 +65,7 @@ function Inicio() {
               localStorage.removeItem("usuario");
               localStorage.removeItem("idRol");
               alert("Sesión cerrada");
+              navigate("/"); // Redirigir al login
               window.location.href = "/"; // Redirigir a la página de login
             }}
             title="Cerrar sesión"

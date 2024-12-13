@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import './css/Login.css'; 
 
 const Login = () => {
@@ -9,8 +8,7 @@ const Login = () => {
     Contrasena: '',
   });
   const [error, setError] = useState('');
-  const [rol, setRol] = useState(''); // Estado para el rol del usuario
-
+  const [rol, setRol] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -45,22 +43,14 @@ const Login = () => {
       }
 
       const data = await response.json();
-      console.log("Respuesta de la API:", data);
-      // Validación de la contraseña
       const contrasenaAPI = data.contrasena ? data.contrasena.trim() : '';
       const contrasenaInput = usuario.Contrasena.trim();
 
       if (contrasenaAPI === contrasenaInput) {
-
-        console.log("Rol de la API:", data.rol);
-  
-        // Guardar el token, usuario y rol en el localStorage
         localStorage.setItem('token', data.token); 
         localStorage.setItem('usuario', usuario.Idusuario);
-        localStorage.setItem('idRol', data.idRol); 
-        console.log("Usuario almacenado:", usuario.Idusuario);
-        console.log("Rol almacenado:", data.rol);
-        setRol(data.rol); // Actualizar el estado local del rol
+        localStorage.setItem('idRol', data.idRol);
+        setRol(data.rol); 
         navigate('/inicio');
       } else {
         setError('Contraseña incorrecta');

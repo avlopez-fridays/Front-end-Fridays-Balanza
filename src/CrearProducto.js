@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/CrearProducto.css";
 
-// Obtener el usuario logueado
-const usuarioLogueado = localStorage.getItem("usuario");
+
+
 const CrearProducto = () => {
+  const usuarioLogueado = localStorage.getItem("usuario");
   const [producto, setProducto] = useState({
     CodigoProducto: "",
     Nombre: "",
@@ -53,6 +54,15 @@ const CrearProducto = () => {
   useEffect(() => {
     fetchRegistros(); // Llama a la función al montar el componente
   }, []);
+
+  useEffect(() => {
+    // Si el usuario logueado cambia, actualiza el estado del producto
+    setProducto((prevProducto) => ({
+      ...prevProducto,
+      usuario: usuarioLogueado || "", // Asegúrate de que el usuario siempre esté actualizado
+    }));
+  }, [usuarioLogueado]); // Este effect se dispara cuando cambia el valor de usuarioLogueado
+
 
   // Función para formatear fechas en formato SQL (YYYY-MM-DD)
   const formatFechaSQL = (fecha) => {
