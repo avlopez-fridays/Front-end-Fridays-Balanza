@@ -8,6 +8,7 @@ import CrearTVFD from './CrearTVFD';
 import Login from './Login'; 
 import Inicio from './Inicio'; // Importamos el componente de inicio
 import CrearSalidaPro from './CrearSalidaPro';
+import CrearSalidaVen from './CrearSalidaVen';
 import DetalleLote from "./DetalleLote";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/crear-producto" element={<CrearProducto />} />
           <Route path="/crear-salida-producto" element={<CrearSalidaProducto />} />
           <Route path="/crear-salida-pro" element={<CrearSalidaPro />} />
+          <Route path="/crear-salida-ven" element={<CrearSalidaVen />} />
           <Route path="/crear-Pantalla-TVFD" element={<CrearPantallaTVFD />} />
           <Route path="/crear-TVFD" element={<CrearTVFD />} />
           <Route path="/crear-usuario" element={<CrearUsuario />} />

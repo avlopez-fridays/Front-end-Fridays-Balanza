@@ -3,7 +3,7 @@ import axios from "axios";
 import "./css/CrearSalidaPro.css";
 import DetalleLote from "./DetalleLote";
 
-const CrearSalidaPro = () => {
+const CrearSalidaVen = () => {
   const [lotes, setLotes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedLote, setSelectedLote] = useState(null);
@@ -18,10 +18,10 @@ const CrearSalidaPro = () => {
       const fechaActual = new Date();
       fechaActual.setHours(0, 0, 0, 0); // Asegurarse de que la hora esté en 00:00:00
   
-      // Filtrar los lotes cuya fecha de vencimiento sea igual o mayor a la fecha actual
+      // Filtrar los lotes cuya fecha de vencimiento sea menor a la fecha actual
       const lotesFiltrados = response.data.filter((lote) => {
         const fechaVence = new Date(lote?.vence); // Fecha de vencimiento del lote
-        return fechaVence >= fechaActual && lote.cantidad >= 1; // Fecha vencimiento igual o mayor a la fecha actual
+        return fechaVence < fechaActual && lote.cantidad >= 1; // Fecha vencimiento menor a la fecha actual
       });
   
       setLotes(lotesFiltrados);
@@ -30,6 +30,7 @@ const CrearSalidaPro = () => {
       setLotes([]);
     }
   };
+  
   
 
   // actualizar periódicamente
@@ -74,6 +75,7 @@ const CrearSalidaPro = () => {
                       <th>Código Producto</th>
                       <th>Nombre</th>
                       <th>Cantidad</th>
+                      <th>Vence</th>
                       <th>Fecha Creación</th>
                     </tr>
                   </thead>
@@ -101,6 +103,11 @@ const CrearSalidaPro = () => {
                         <td>{lote?.cantidad ?? "N/A"}</td>
                         <td>
                           {new Date(
+                            lote?.vence ?? "N/A"
+                          ).toLocaleDateString()}
+                        </td>
+                        <td>
+                          {new Date(
                             lote?.fechaCreacion ?? "N/A"
                           ).toLocaleDateString()}
                         </td>
@@ -119,4 +126,4 @@ const CrearSalidaPro = () => {
   );
 };
 
-export default CrearSalidaPro;
+export default CrearSalidaVen;

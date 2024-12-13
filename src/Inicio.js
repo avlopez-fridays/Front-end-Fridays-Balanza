@@ -8,6 +8,7 @@ import CrearPantallaTVFD from "./CrearPantallaTVFD";
 import CrearTVFD from "./CrearTVFD";
 import CrearUsuario from "./CrearUsuario";
 import CrearSalidaPro from "./CrearSalidaPro";
+import CrearSalidaVen from "./CrearSalidaVen";
 import "./css/Inicio.css";
 
 function Inicio() {
@@ -92,6 +93,11 @@ function Inicio() {
                   <i className="bi bi-box-arrow-up-left"></i> Salida de Producto
                 </Link>
               </li>
+              <li>
+                <Link to="#" onClick={() => handleLinkClick("salidaVen")}>
+                  <i className="bi bi-box-arrow-up-left"></i> Salida de Producto Vencimiento
+                </Link>
+              </li>
 
               {/* Mostrar otras opciones solo si el rol no es 1 */}
               {!isRol1 && (
@@ -125,6 +131,7 @@ function Inicio() {
         >
           {activeContent === "producto" && <CrearProducto />}
           {activeContent === "salidaPro" && <CrearSalidaPro />}
+          {activeContent === "salidaVen" && <CrearSalidaVen />}
           {activeContent === "pantalla" && <CrearPantallaTVFD />}
           {activeContent === "tv" && <CrearTVFD />}
           {activeContent === "usuario" && <CrearUsuario />}
