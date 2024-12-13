@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-
 // Componentes para mostrar en el área de contenido
 import CrearProducto from "./CrearProducto";
 import CrearPantallaTVFD from "./CrearPantallaTVFD";
@@ -20,9 +19,8 @@ function Inicio() {
   const usuarioRol = localStorage.getItem("idRol") || "Sin Rol";
   const navigate = useNavigate();
 
-
-   // Redirigir al login si no hay token
-   useEffect(() => {
+  // Redirigir al login si no hay token
+  useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/"); // Redirigir a login si no está logueado
     }
@@ -95,7 +93,12 @@ function Inicio() {
               </li>
               <li>
                 <Link to="#" onClick={() => handleLinkClick("salidaVen")}>
-                  <i className="bi bi-box-arrow-up-left"></i> Salida de Producto Vencimiento
+                  <i
+                    className="bi bi-exclamation-triangle"
+                    style={{ color: "red" }}
+                  ></i>{" "}
+                  {/* Ícono en rojo */}
+                  Salida de Producto Vencimiento
                 </Link>
               </li>
 

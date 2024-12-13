@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./css/CrearSalidaPro.css";
+import "./css/CrearSalidaProVen.css";
 import DetalleLoteVen from "./DetalleLoteVen";
 
 const CrearSalidaVen = () => {
@@ -62,9 +62,11 @@ const CrearSalidaVen = () => {
         {/* Contenedor de lotes */}
         <div className="col-lg-12 mb-4">
           <div className="card">
-            <div className="card-header">
-              <h4>Lotes</h4>
-            </div>
+          <div className="card-header card-header-rojo">
+  <h4>Lotes Vencidos</h4>
+</div>
+
+
             <div className="card-body" style={{ overflowX: "auto", overflowY: "auto", maxHeight: "800px" }}>
               {lotes && lotes.length > 0 ? (
                 <table className="table">
