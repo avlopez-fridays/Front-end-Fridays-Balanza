@@ -3,8 +3,10 @@ import axios from "axios";
 import "./css/CrearSalidaPro.css";
 
 
-const usuarioLogueado = localStorage.getItem("usuario");
+
+
 const DetalleLote = ({ showModal, selectedLote, onClose }) => {
+  const usuarioLogueado = localStorage.getItem("usuario");
   const [productos, setProductos] = useState([]);
   const [salida, setSalida] = useState({
     codigoProducto: "",
@@ -23,6 +25,18 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
   });
 
   const [mensaje, setMensaje] = useState("");
+
+
+  useEffect(() => {
+    setProductos((prevProductos) =>
+      prevProductos.map((producto) => ({
+        ...producto,
+        usuario: usuarioLogueado || "", // Actualiza el usuario
+      }))
+    );
+  }, [usuarioLogueado]); // Lista de dependencias vacía
+  
+
   // Función memoizada con useCallback
   const obtenerProductos = useCallback(async () => {
     try {
@@ -50,11 +64,17 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
 
     return () => clearInterval(intervalo); // Limpia el intervalo al desmontar
   }
+
 }, [showModal, selectedLote, obtenerProductos]);
 
   if (!showModal || !selectedLote) {
     return null;
   }
+
+
+
+
+
   const formatFechaSQL = (fecha) => {
     const [dia, mes, anio] = fecha.split("-");
     return `20${anio}-${mes}-${dia}`; // Cambiar formato si es necesario
