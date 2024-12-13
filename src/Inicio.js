@@ -82,7 +82,7 @@ function Inicio() {
               {/* Mostrar siempre CrearProducto y CrearSalidaPro */}
               <li>
                 <Link to="#" onClick={() => handleLinkClick("producto")}>
-                  <i className="bi bi-box-arrow-in-up-left"></i> Producto en
+                  <i className="bi bi-box-arrow-in-up-left"></i> Ingresar Producto en
                   Proceso
                 </Link>
               </li>
@@ -98,7 +98,7 @@ function Inicio() {
                     style={{ color: "red" }}
                   ></i>{" "}
                   {/* Ícono en rojo */}
-                  Salida de Producto Vencimiento
+                  Salida de Producto Vencidos
                 </Link>
               </li>
 

@@ -23,7 +23,6 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
 
   const [mensaje, setMensaje] = useState("");
 
-
   const resetCampos = () => {
     setSalida({
       codigoProducto: "",
@@ -45,7 +44,6 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
       qrInput.value = ""; // Limpia el campo del QR si existe
     }
   };
-  
 
   const DURACION_MENSAJE = 50000;
 
@@ -97,7 +95,6 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
   };
 
   setTimeout(() => setMensaje(""), DURACION_MENSAJE);
-
 
   const handleQRInput = (e) => {
     let qrData = e.target.value;
@@ -151,8 +148,6 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
       setMensaje("Error al eliminar productos");
     }
     setTimeout(() => setMensaje(""), DURACION_MENSAJE);
-
-
   };
 
   const handleSubmit = async (e) => {
@@ -165,14 +160,12 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
 
     if (!productoEnLote) {
       setMensaje("Producto no se encuentra en este lote");
-          // Resetear el estado de la salida
-          resetCampos();
-          setTimeout(() => setMensaje(""), DURACION_MENSAJE);
-
+      // Resetear el estado de la salida
+      resetCampos();
+      setTimeout(() => setMensaje(""), DURACION_MENSAJE);
 
       return; // Detener la ejecución si el producto no pertenece al lote
     }
-
 
     try {
       // Eliminar los productos relacionados con los parámetros adicionales
@@ -197,7 +190,6 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
       setMensaje("Salida creada exitosamente");
       setTimeout(() => setMensaje(""), DURACION_MENSAJE);
 
-
       // Resetear el estado de la salida
       resetCampos();
 
@@ -216,8 +208,6 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
         setMensaje("Error al crear la salida");
       }
       setTimeout(() => setMensaje(""), DURACION_MENSAJE);
-
-
     }
   };
 
@@ -249,7 +239,7 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
           <div className="modal-body">
             {/* Aquí comienza la tabla */}
             <h5 style={{ fontSize: "15px", marginBottom: "10px" }}>
-              Registros de Producto
+              Registros de Producto vencidos
             </h5>
             <div className="table-responsive">
               <table
@@ -300,8 +290,8 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
             <div className="row justify-content-center">
               <div className="col-lg-12">
                 <div className="card">
-                  <div className="card-header text-center">
-                    <h3>Salida Producto</h3>
+                  <div className="card-header text-center card-header-rojo">
+                    <h3>Salida Producto vencido</h3>
                   </div>
 
                   {/* Si hay un mensaje, mostrarlo como una alerta */}
@@ -388,7 +378,15 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
 
                       {/* Botón de enviar */}
                       <div className="text">
-                        <button type="submit" className="btn btn-primary">
+                        <button
+                          type="submit"
+                          className="btn"
+                          style={{
+                            backgroundColor: "red",
+                            borderColor: "red",
+                            color: "white",
+                          }}
+                        >
                           Crear Salida
                         </button>
                       </div>
