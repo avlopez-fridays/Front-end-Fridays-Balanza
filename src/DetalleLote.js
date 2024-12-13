@@ -2,9 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./css/CrearSalidaPro.css";
 
-
-
-
 const DetalleLote = ({ showModal, selectedLote, onClose }) => {
   const usuarioLogueado = localStorage.getItem("usuario");
   const [productos, setProductos] = useState([]);
@@ -26,7 +23,31 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
 
   const [mensaje, setMensaje] = useState("");
 
+  const resetCampos = () => {
+    setSalida({
+      codigoProducto: "",
+      peso: 0,
+      fecha: "",
+      vence: "",
+      dias: 0,
+      qr: "",
+      FechaCreacion: new Date().toISOString().split("T")[0],
+      nombre: "",
+      correlativo: "",
+      usuario: "",
+      creosalida: usuarioLogueado || "",
+      Estado: "",
+      Lote: "",
+    });
+    const qrInput = document.getElementById("QRScan");
+    if (qrInput) {
+      qrInput.value = ""; // Limpia el campo del QR si existe
+    }
+  };
+  
+  const DURACION_MENSAJE = 50000;
 
+  
   useEffect(() => {
     setProductos((prevProductos) =>
       prevProductos.map((producto) => ({
@@ -35,7 +56,6 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
       }))
     );
   }, [usuarioLogueado]); // Lista de dependencias vacía
-  
 
   // Función memoizada con useCallback
   const obtenerProductos = useCallback(async () => {
@@ -53,42 +73,35 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
     }
   }, [selectedLote]); // Dependencia de selectedLote
 
- // Actualización periódica
- useEffect(() => {
-  if (showModal && selectedLote) {
-    obtenerProductos(); // Llama la primera vez
+  // Actualización periódica
+  useEffect(() => {
+    if (showModal && selectedLote) {
+      obtenerProductos(); // Llama la primera vez
 
-    const intervalo = setInterval(() => {
-      obtenerProductos(); // Llama cada 2 segundos
-    }, 2000);
+      const intervalo = setInterval(() => {
+        obtenerProductos(); // Llama cada 2 segundos
+      }, 2000);
 
-    return () => clearInterval(intervalo); // Limpia el intervalo al desmontar
-  }
-
-}, [showModal, selectedLote, obtenerProductos]);
+      return () => clearInterval(intervalo); // Limpia el intervalo al desmontar
+    }
+  }, [showModal, selectedLote, obtenerProductos]);
 
   if (!showModal || !selectedLote) {
     return null;
   }
-
-
-
-
 
   const formatFechaSQL = (fecha) => {
     const [dia, mes, anio] = fecha.split("-");
     return `20${anio}-${mes}-${dia}`; // Cambiar formato si es necesario
   };
 
-
-  setTimeout(() => setMensaje(""), 2000);
+  setTimeout(() => setMensaje(""), DURACION_MENSAJE);
 
 
   const handleQRInput = (e) => {
-  
     let qrData = e.target.value;
     // Reemplazar todas las barras '/' por guiones '-'
-       qrData = qrData.replace(/\//g, "-");
+    qrData = qrData.replace(/\//g, "-");
 
     console.log("Contenido del QR:", qrData);
 
@@ -136,11 +149,28 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
       console.error("Error al eliminar productos:", error);
       setMensaje("Error al eliminar productos");
     }
-    setTimeout(() => setMensaje(""), 8000);
+    setTimeout(() => setMensaje(""), DURACION_MENSAJE);
+
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Verificar si el producto pertenece al lote
+    const productoEnLote = productos.some(
+      (producto) => producto.codigoProducto === salida.codigoProducto
+    );
+
+    if (!productoEnLote) {
+      setMensaje("Producto no se encuentra en este lote");
+          // Resetear el estado de la salida
+          resetCampos();
+          setTimeout(() => setMensaje(""), DURACION_MENSAJE);
+
+
+      return; // Detener la ejecución si el producto no pertenece al lote
+    }
+
 
     try {
       // Eliminar los productos relacionados con los parámetros adicionales
@@ -161,25 +191,12 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
           fechaCreacion: new Date().toISOString(),
         }
       );
-    
+
       setMensaje("Salida creada exitosamente");
-      setTimeout(() => setMensaje(""), 8000);
-      // Resetear el estado de la salida
-      setSalida({
-        codigoProducto: "",
-        peso: 0,
-        fecha: "",
-        vence: "",
-        dias: 0,
-        qr: "",
-        FechaCreacion: new Date().toISOString().split("T")[0],
-        nombre: "",
-        correlativo: "",
-        usuario: "",
-        creosalida: usuarioLogueado || "",
-        Estado: "",
-        Lote: "",
-      });
+      setTimeout(() => setMensaje(""), DURACION_MENSAJE);
+
+
+      resetCampos();
 
       // Limpiar el campo del código QR
       document.getElementById("QRScan").value = "";
@@ -195,7 +212,8 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
       } else {
         setMensaje("Error al crear la salida");
       }
-      setTimeout(() => setMensaje(""), 8000);
+      setTimeout(() => setMensaje(""), DURACION_MENSAJE);
+
     }
   };
 
@@ -303,7 +321,6 @@ const DetalleLote = ({ showModal, selectedLote, onClose }) => {
                             id="QRScan"
                             placeholder="Escanea o escribe el código QR"
                             onChange={handleQRInput}
-                            
                           />
                         </div>
 
