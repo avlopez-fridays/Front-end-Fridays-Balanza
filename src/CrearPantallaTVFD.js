@@ -32,6 +32,20 @@ function CrearPantallaTVFD({ onPantallaCreada }) {
   // Obtener el usuario logueado
   const usuarioLogueado = localStorage.getItem("usuario"); // Asumiendo que el usuario está guardado en localStorage
 
+
+  useEffect(() => {
+    setRegistros((prevProductos) =>
+      prevProductos.map((producto) => ({
+        ...producto,
+        usuario: usuarioLogueado || "", // Actualiza el usuario
+      }))
+    );
+  }, [usuarioLogueado]); // Lista de dependencias vacía
+  
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 

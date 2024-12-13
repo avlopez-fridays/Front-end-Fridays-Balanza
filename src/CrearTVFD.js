@@ -32,6 +32,17 @@ function CrearTVFD() {
    // Obtener el usuario logueado
    const usuarioLogueado = localStorage.getItem("usuario");
 
+
+  useEffect(() => {
+    setRegistros((prevProductos) =>
+      prevProductos.map((producto) => ({
+        ...producto,
+        usuario: usuarioLogueado || "", // Actualiza el usuario
+      }))
+    );
+  }, [usuarioLogueado]); // Lista de dependencias vacía
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 

@@ -3,15 +3,16 @@ import "./css/CrearUsuario.css";
 import axios from "axios";
 
 const CrearUsuario = () => {
+  const storedUsuario = localStorage.getItem("usuario");
   const [usuario, setUsuario] = useState({
     Idusuario: "",
     Contrasena: "",
     Huella: "",
     Estado: "A",
-    FechaCreacion: "",
+    FechaCreacion: new Date().toISOString().split("T")[0],
     usuario: "", // Este es el nombre del usuario que se obtendrá del localStorage
-    IdRol: "", // Solo el id del rol, el objeto completo se generará al enviar
-    rolFD: { // Se inicializa con un objeto vacío para el rol
+    IdRol: "", 
+    rolFD: { 
       idRol: 0,
       nombre: "",
       estado: "A",
@@ -24,7 +25,7 @@ const CrearUsuario = () => {
 
   // Obtener el nombre de usuario del localStorage y actualizar el estado
   useEffect(() => {
-    const storedUsuario = localStorage.getItem("usuario");
+ 
     if (storedUsuario) {
       setUsuario((prevState) => ({
         ...prevState,
@@ -53,7 +54,20 @@ const CrearUsuario = () => {
     };
 
     fetchRoles();
+
+
+
+  }, [storedUsuario]);
+
+  useEffect(() => {
+    // Si usuarioLogueado cambia, actualizamos el estado
+    const usuarioLogueado = localStorage.getItem("usuario"); // Suponiendo que el valor viene de localStorage
+    setUsuario((prevState) => ({
+      ...prevState,
+      usuario: usuarioLogueado || "", // Actualiza el nombre de usuario
+    }));
   }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -110,7 +124,7 @@ const CrearUsuario = () => {
         Contrasena: "",
         Huella: "",
         Estado: "A",
-        FechaCreacion: "",
+        FechaCreacion: new Date().toISOString().split("T")[0],
         usuario: "",
         IdRol: "",
         rolFD: { idRol: 0, nombre: "", estado: "A" }, // Reiniciar el rolFD
