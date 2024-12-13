@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/CrearSalidaPro.css";
-import DetalleLote from "./DetalleLote";
+import DetalleLoteVen from "./DetalleLoteVen";
 
 const CrearSalidaVen = () => {
   const [lotes, setLotes] = useState([]);
@@ -52,7 +52,7 @@ const CrearSalidaVen = () => {
   return (
     <div className="container">
       {/* Modal */}
-      <DetalleLote
+      <DetalleLoteVen
         showModal={showModal}
         selectedLote={selectedLote}
         onClose={handleModalClose}
