@@ -91,7 +91,7 @@ const DetalleLoteVen = ({ showModal, selectedLote, onClose }) => {
 
   const formatFechaSQL = (fecha) => {
     const [dia, mes, anio] = fecha.split("-");
-    return `20${anio}-${mes}-${dia}`; // Cambiar formato si es necesario
+    return `20${anio}-${mes}-${dia}`; 
   };
 
   setTimeout(() => setMensaje(""), DURACION_MENSAJE);
